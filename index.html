@@ -25,6 +25,35 @@
             padding: 20px;
         }
         
+        /* 頂部語言切換 */
+        .lang-switcher {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .lang-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: #667eea;
+        }
+
         /* 導航標籤 */
         .nav-tabs {
             display: flex;
@@ -32,6 +61,7 @@
             gap: 10px;
             margin-bottom: 30px;
             flex-wrap: wrap;
+            margin-top: 50px;
         }
         
         .nav-tab {
@@ -399,6 +429,13 @@
 </head>
 <body>
     <div class="container">
+        <!-- 語言切換 -->
+        <div class="lang-switcher">
+            <button class="lang-btn active" onclick="switchLang('zh-TW')">繁體中文</button>
+            <button class="lang-btn" onclick="switchLang('zh-CN')">简体中文</button>
+            <button class="lang-btn" onclick="switchLang('en')">English</button>
+        </div>
+
         <!-- 導航標籤 -->
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('home')">🏠 首頁</button>
@@ -499,14 +536,14 @@
         <div id="traveler" class="tab-content">
             <div class="content-card">
                 <h2>🛫 我要賺錢</h2>
-                <p class="subtitle">利用你的閒置行李額度，幫人帶東西賺外快<br>平台抽成僅 10%，學生認證優先配對</p>
+                <p class="subtitle">利用你的閒置行李額度，幫人帶東西賺外快<br>學生認證優先配對</p>
                 
                 <div id="travelerFormStatus"></div>
                 
                 <form class="email-form" id="travelerForm">
                     <div class="form-group">
                         <label>微信號 *</label>
-                        <input type="text" id="travelerContact" placeholder="例如：wxid123" required>
+                        <input type="text" id="travelerContact" placeholder="wxid123" required>
                     </div>
                     
                     <div class="form-group">
@@ -548,12 +585,12 @@
                     
                     <div class="form-group">
                         <label>可帶重量 (kg) *</label>
-                        <input type="number" id="travelerWeight" placeholder="例如：5" min="1" max="50" required>
+                        <input type="number" id="travelerWeight" placeholder="5" min="1" max="50" required>
                     </div>
                     
                     <div class="form-group">
                         <label>期望價格 ($/kg)</label>
-                        <input type="number" id="travelerPrice" placeholder="例如：20" min="5" max="100">
+                        <input type="number" id="travelerPrice" placeholder="20" min="5" max="100">
                     </div>
                     
                     <button type="submit" class="btn" id="travelerSubmitBtn">登錄我的航班</button>
@@ -587,7 +624,7 @@
                 <form class="email-form" id="senderForm">
                     <div class="form-group">
                         <label>微信號 *</label>
-                        <input type="text" id="senderContact" placeholder="例如：wxid123" required>
+                        <input type="text" id="senderContact" placeholder="wxid123" required>
                     </div>
                     
                     <div class="form-group">
@@ -629,12 +666,12 @@
                     
                     <div class="form-group">
                         <label>預計重量 (kg)</label>
-                        <input type="number" id="senderWeight" placeholder="例如：3" min="0.5" max="50" step="0.5">
+                        <input type="number" id="senderWeight" placeholder="3" min="0.5" max="50" step="0.5">
                     </div>
                     
                     <div class="form-group">
-                        <label>想買什麼東西 (選填)</label>
-                        <input type="text" id="senderItem" placeholder="例如：藥妝、零食、衣服">
+                        <label>想寄什麼東西 (選填)</label>
+                        <input type="text" id="senderItem" placeholder="藥妝、零食、衣服">
                     </div>
                     
                     <button type="submit" class="btn" id="senderSubmitBtn">提交我的需求</button>
@@ -877,6 +914,19 @@
                 submitBtn.textContent = '提交我的需求';
             }
         });
+
+        // 語言切換
+        function switchLang(lang) {
+            // 更新按鈕狀態
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // 這裡可以加入實際的語言切換邏輯
+            // 目前只是視覺效果
+            console.log('Switch to:', lang);
+        }
 
         // 載入航班資料
         async function loadFlights() {
