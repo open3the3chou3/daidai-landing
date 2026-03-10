@@ -403,7 +403,8 @@
         <div class="nav-tabs">
             <button class="nav-tab active" onclick="showTab('home')">🏠 首頁</button>
             <button class="nav-tab" onclick="showTab('flights')">✈️ 找旅人</button>
-            <button class="nav-tab" onclick="showTab('join')">📝 加入等候名單</button>
+            <button class="nav-tab" onclick="showTab('traveler')">🛫 我要賺錢</button>
+            <button class="nav-tab" onclick="showTab('sender')">📦 我要寄件</button>
         </div>
 
         <!-- 首頁 -->
@@ -494,33 +495,23 @@
             </div>
         </div>
 
-        <!-- 加入等候名單 -->
-        <div id="join" class="tab-content">
+        <!-- 我要賺錢 (旅人) -->
+        <div id="traveler" class="tab-content">
             <div class="content-card">
-                <h2>搶先體驗</h2>
-                <p class="subtitle">我們正在招募首批用戶<br>留下你的資料，上線第一時間通知你</p>
+                <h2>🛫 我要賺錢</h2>
+                <p class="subtitle">利用你的閒置行李額度，幫人帶東西賺外快<br>平台抽成僅 10%，學生認證優先配對</p>
                 
-                <div id="formStatus"></div>
+                <div id="travelerFormStatus"></div>
                 
-                <form class="email-form" id="waitlistForm">
-                    <div class="form-group">
-                        <label>你是？</label>
-                        <select id="userType" required>
-                            <option value="">請選擇</option>
-                            <option value="buyer">我想買東西（買方）</option>
-                            <option value="traveler">我想帶東西賺錢（旅人）</option>
-                            <option value="both">都可以</option>
-                        </select>
-                    </div>
-                    
+                <form class="email-form" id="travelerForm">
                     <div class="form-group">
                         <label>微信號或電話號碼 *</label>
-                        <input type="text" id="contact" placeholder="例如：wxid123 或 +61 412 345 678" required>
+                        <input type="text" id="travelerContact" placeholder="例如：wxid123 或 +61 412 345 678" required>
                     </div>
                     
                     <div class="form-group">
-                        <label>國家/地區 *</label>
-                        <select id="country" required>
+                        <label>你所在的國家/地區 *</label>
+                        <select id="travelerCountry" required>
                             <option value="">請選擇</option>
                             <option value="Australia">澳洲 Australia</option>
                             <option value="USA">美國 USA</option>
@@ -533,12 +524,120 @@
                     
                     <div class="form-group">
                         <label>所在城市 *</label>
-                        <select id="city" required>
+                        <select id="travelerCity" required>
                             <option value="">請先選擇國家</option>
                         </select>
                     </div>
                     
-                    <button type="submit" class="btn" id="submitBtn">立即加入等候名單</button>
+                    <div class="form-group">
+                        <label>預計飛往 *</label>
+                        <select id="travelerDestCountry" required>
+                            <option value="">請選擇</option>
+                            <option value="China">中國 China</option>
+                            <option value="Australia">澳洲 Australia</option>
+                            <option value="USA">美國 USA</option>
+                            <option value="Canada">加拿大 Canada</option>
+                            <option value="UK">英國 UK</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>預計出發日期 *</label>
+                        <input type="date" id="travelerDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>可帶重量 (kg) *</label>
+                        <input type="number" id="travelerWeight" placeholder="例如：5" min="1" max="50" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>期望價格 ($/kg)</label>
+                        <input type="number" id="travelerPrice" placeholder="例如：20" min="5" max="100">
+                    </div>
+                    
+                    <button type="submit" class="btn" id="travelerSubmitBtn">登錄我的航班</button>
+                </form>
+                
+                <div class="trust-badges">
+                    <div class="trust-badge">
+                        <span>🔒</span>
+                        <span>SSL加密</span>
+                    </div>
+                    <div class="trust-badge">
+                        <span>🎓</span>
+                        <span>學生認證</span>
+                    </div>
+                    <div class="trust-badge">
+                        <span>💰</span>
+                        <span>託管付款</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 我要寄件 (買方) -->
+        <div id="sender" class="tab-content">
+            <div class="content-card">
+                <h2>📦 我要寄件</h2>
+                <p class="subtitle">比國際快遞便宜 50%，3-7天快速到貨<br>留下你的需求，我們幫你找最適合的旅人</p>
+                
+                <div id="senderFormStatus"></div>
+                
+                <form class="email-form" id="senderForm">
+                    <div class="form-group">
+                        <label>微信號或電話號碼 *</label>
+                        <input type="text" id="senderContact" placeholder="例如：wxid123 或 +61 412 345 678" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>你所在的國家/地區 *</label>
+                        <select id="senderCountry" required>
+                            <option value="">請選擇</option>
+                            <option value="China">中國 China</option>
+                            <option value="Australia">澳洲 Australia</option>
+                            <option value="USA">美國 USA</option>
+                            <option value="Canada">加拿大 Canada</option>
+                            <option value="UK">英國 UK</option>
+                            <option value="Other">其他 Other</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>所在城市 *</label>
+                        <select id="senderCity" required>
+                            <option value="">請先選擇國家</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>想從哪裡買東西 *</label>
+                        <select id="senderFromCountry" required>
+                            <option value="">請選擇</option>
+                            <option value="Australia">澳洲 Australia</option>
+                            <option value="USA">美國 USA</option>
+                            <option value="Canada">加拿大 Canada</option>
+                            <option value="UK">英國 UK</option>
+                            <option value="China">中國 China</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>預計需要送達日期</label>
+                        <input type="date" id="senderDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>預計重量 (kg)</label>
+                        <input type="number" id="senderWeight" placeholder="例如：3" min="0.5" max="50" step="0.5">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>想買什麼東西 (選填)</label>
+                        <input type="text" id="senderItem" placeholder="例如：藥妝、零食、衣服">
+                    </div>
+                    
+                    <button type="submit" class="btn" id="senderSubmitBtn">提交我的需求</button>
                 </form>
                 
                 <div class="trust-badges">
@@ -599,9 +698,26 @@
             'Other': ['其他 Other']
         };
         
-        // 國家選擇改變時更新城市選單
-        document.getElementById('country').addEventListener('change', function() {
-            const citySelect = document.getElementById('city');
+        // 國家選擇改變時更新城市選單 - 旅人表單
+        document.getElementById('travelerCountry').addEventListener('change', function() {
+            const citySelect = document.getElementById('travelerCity');
+            const country = this.value;
+            
+            citySelect.innerHTML = '<option value="">請選擇城市</option>';
+            
+            if (country && citiesByCountry[country]) {
+                citiesByCountry[country].forEach(city => {
+                    const option = document.createElement('option');
+                    option.value = city;
+                    option.textContent = city;
+                    citySelect.appendChild(option);
+                });
+            }
+        });
+        
+        // 國家選擇改變時更新城市選單 - 寄件表單
+        document.getElementById('senderCountry').addEventListener('change', function() {
+            const citySelect = document.getElementById('senderCity');
             const country = this.value;
             
             citySelect.innerHTML = '<option value="">請選擇城市</option>';
@@ -627,17 +743,101 @@
             }
         }
         
-        // 表單提交
-        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+        // 旅人表單提交
+        document.getElementById('travelerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const submitBtn = document.getElementById('submitBtn');
-            const formStatus = document.getElementById('formStatus');
+            const submitBtn = document.getElementById('travelerSubmitBtn');
+            const formStatus = document.getElementById('travelerFormStatus');
             
             submitBtn.disabled = true;
             submitBtn.textContent = '提交中...';
             
-            const contact = document.getElementById('contact').value.trim();
+            const contact = document.getElementById('travelerContact').value.trim();
+            let contactType = 'wechat';
+            if (/^[\+\d\s\-]{8,}$/.test(contact)) {
+                contactType = 'phone';
+            } else if (contact.includes('@')) {
+                contactType = 'email';
+            }
+            
+            const ipAddress = await getIP();
+            
+            // 先加入等候名單
+            const waitlistData = {
+                user_type: 'traveler',
+                contact: contact,
+                contact_type: contactType,
+                city: document.getElementById('travelerCity').value,
+                country: document.getElementById('travelerCountry').value,
+                ip_address: ipAddress
+            };
+            
+            try {
+                const response1 = await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=minimal'
+                    },
+                    body: JSON.stringify(waitlistData)
+                });
+                
+                if (response1.ok || response1.status === 409) {
+                    // 再登錄航班
+                    const flightData = {
+                        from_city: document.getElementById('travelerCity').value,
+                        from_country: document.getElementById('travelerCountry').value,
+                        to_city: citiesByCountry[document.getElementById('travelerDestCountry').value]?.[0] || 'Unknown',
+                        to_country: document.getElementById('travelerDestCountry').value,
+                        flight_date: document.getElementById('travelerDate').value,
+                        available_kg: parseFloat(document.getElementById('travelerWeight').value),
+                        price_per_kg: parseFloat(document.getElementById('travelerPrice').value) || 20
+                    };
+                    
+                    const response2 = await fetch(`${SUPABASE_URL}/rest/v1/flights`, {
+                        method: 'POST',
+                        headers: {
+                            'apikey': SUPABASE_ANON_KEY,
+                            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                            'Content-Type': 'application/json',
+                            'Prefer': 'return=minimal'
+                        },
+                        body: JSON.stringify(flightData)
+                    });
+                    
+                    if (response2.ok) {
+                        formStatus.innerHTML = '<div class="success-message">✅ 航班登錄成功！我們會盡快聯繫你</div>';
+                        this.reset();
+                        document.getElementById('travelerCity').innerHTML = '<option value="">請先選擇國家</option>';
+                    } else {
+                        formStatus.innerHTML = '<div class="error-message">⚠️ 航班登錄失敗，請稍後再試</div>';
+                    }
+                } else {
+                    formStatus.innerHTML = '<div class="error-message">⚠️ 提交失敗，請稍後再試</div>';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                formStatus.innerHTML = '<div class="error-message">⚠️ 網路錯誤，請檢查連線後再試</div>';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = '登錄我的航班';
+            }
+        });
+        
+        // 寄件表單提交
+        document.getElementById('senderForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('senderSubmitBtn');
+            const formStatus = document.getElementById('senderFormStatus');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = '提交中...';
+            
+            const contact = document.getElementById('senderContact').value.trim();
             let contactType = 'wechat';
             if (/^[\+\d\s\-]{8,}$/.test(contact)) {
                 contactType = 'phone';
@@ -648,11 +848,11 @@
             const ipAddress = await getIP();
             
             const data = {
-                user_type: document.getElementById('userType').value,
+                user_type: 'buyer',
                 contact: contact,
                 contact_type: contactType,
-                city: document.getElementById('city').value,
-                country: document.getElementById('country').value,
+                city: document.getElementById('senderCity').value,
+                country: document.getElementById('senderCountry').value,
                 ip_address: ipAddress
             };
             
@@ -669,9 +869,9 @@
                 });
                 
                 if (response.ok) {
-                    formStatus.innerHTML = '<div class="success-message">✅ 提交成功！我們會盡快聯繫你</div>';
+                    formStatus.innerHTML = '<div class="success-message">✅ 需求提交成功！我們會盡快幫你匹配旅人</div>';
                     this.reset();
-                    document.getElementById('city').innerHTML = '<option value="">請先選擇國家</option>';
+                    document.getElementById('senderCity').innerHTML = '<option value="">請先選擇國家</option>';
                 } else if (response.status === 409) {
                     formStatus.innerHTML = '<div class="error-message">⚠️ 您已經提交過了，請 24 小時後再試</div>';
                 } else {
@@ -684,7 +884,7 @@
                 formStatus.innerHTML = '<div class="error-message">⚠️ 網路錯誤，請檢查連線後再試</div>';
             } finally {
                 submitBtn.disabled = false;
-                submitBtn.textContent = '立即加入等候名單';
+                submitBtn.textContent = '提交我的需求';
             }
         });
 
