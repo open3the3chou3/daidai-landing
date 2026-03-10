@@ -152,6 +152,65 @@
             font-size: 13px;
             margin-top: 30px;
         }
+
+        .flights-filter {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-group label {
+            font-size: 13px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .filter-group select,
+        .filter-group input {
+            padding: 10px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            min-width: 120px;
+        }
+
+        .btn-filter {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            align-self: flex-end;
+            height: fit-content;
+        }
+
+        .loading {
+            text-align: center;
+            color: #999;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .no-flights {
+            text-align: center;
+            color: #666;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
         
         .how-it-works {
             background: white;
@@ -432,49 +491,37 @@
         <section class="upcoming-flights">
             <h2>🛫 即將起飛</h2>
             <p class="subtitle">最近有這些留學生要飛，看看有沒有適合你的路線</p>
-            <div class="flights-grid" id="flightsGrid">
-                <div class="flight-card">
-                    <div class="flight-route">
-                        <span class="city">悉尼</span>
-                        <span class="arrow">→</span>
-                        <span class="city">上海</span>
-                    </div>
-                    <div class="flight-date">3月15日</div>
-                    <div class="flight-capacity">可帶 5kg</div>
-                    <div class="flight-price">$20/kg</div>
+            
+            <!-- 搜尋篩選 -->
+            <div class="flights-filter">
+                <div class="filter-group">
+                    <label>出發地</label>
+                    <select id="filterFrom">
+                        <option value="">全部</option>
+                        <option value="Australia">澳洲</option>
+                        <option value="USA">美國</option>
+                        <option value="Canada">加拿大</option>
+                        <option value="UK">英國</option>
+                    </select>
                 </div>
-                <div class="flight-card">
-                    <div class="flight-route">
-                        <span class="city">墨爾本</span>
-                        <span class="arrow">→</span>
-                        <span class="city">北京</span>
-                    </div>
-                    <div class="flight-date">3月18日</div>
-                    <div class="flight-capacity">可帶 8kg</div>
-                    <div class="flight-price">$18/kg</div>
+                <div class="filter-group">
+                    <label>目的地</label>
+                    <select id="filterTo">
+                        <option value="">全部</option>
+                        <option value="China">中國</option>
+                    </select>
                 </div>
-                <div class="flight-card">
-                    <div class="flight-route">
-                        <span class="city">洛杉磯</span>
-                        <span class="arrow">→</span>
-                        <span class="city">廣州</span>
-                    </div>
-                    <div class="flight-date">3月20日</div>
-                    <div class="flight-capacity">可帶 10kg</div>
-                    <div class="flight-price">$22/kg</div>
+                <div class="filter-group">
+                    <label>出發日期</label>
+                    <input type="date" id="filterDate">
                 </div>
-                <div class="flight-card">
-                    <div class="flight-route">
-                        <span class="city">多倫多</span>
-                        <span class="arrow">→</span>
-                        <span class="city">深圳</span>
-                    </div>
-                    <div class="flight-date">3月22日</div>
-                    <div class="flight-capacity">可帶 6kg</div>
-                    <div class="flight-price">$25/kg</div>
-                </div>
+                <button class="btn-filter" onclick="loadFlights()">搜尋</button>
             </div>
-            <p class="flights-note">* 以上為示例數據，上線後顯示真實航班</p>
+            
+            <div class="flights-grid" id="flightsGrid">
+                <div class="loading">載入中...</div>
+            </div>
+            <p class="flights-note">* 點擊航班可查看詳情或預訂</p>
         </section>
 
         <section class="how-it-works">
@@ -701,6 +748,69 @@
                 submitBtn.textContent = '立即加入等候名單';
             }
         });
+
+        // 載入航班資料
+        async function loadFlights() {
+            const grid = document.getElementById('flightsGrid');
+            const fromFilter = document.getElementById('filterFrom').value;
+            const toFilter = document.getElementById('filterTo').value;
+            const dateFilter = document.getElementById('filterDate').value;
+            
+            grid.innerHTML = '<div class="loading">載入中...</div>';
+            
+            try {
+                let url = `${SUPABASE_URL}/rest/v1/flights?status=eq.active&order=flight_date.asc&limit=20`;
+                
+                if (fromFilter) {
+                    url += `&from_country=eq.${fromFilter}`;
+                }
+                if (toFilter) {
+                    url += `&to_country=eq.${toFilter}`;
+                }
+                if (dateFilter) {
+                    url += `&flight_date=eq.${dateFilter}`;
+                }
+                
+                const response = await fetch(url, {
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`
+                    }
+                });
+                
+                const flights = await response.json();
+                
+                if (flights.length === 0) {
+                    grid.innerHTML = '<div class="no-flights">暫無符合條件的航班</div>';
+                    return;
+                }
+                
+                grid.innerHTML = flights.map(flight => {
+                    const date = new Date(flight.flight_date);
+                    const dateStr = `${date.getMonth() + 1}月${date.getDate()}日`;
+                    
+                    return `
+                        <div class="flight-card">
+                            <div class="flight-route">
+                                <span class="city">${flight.from_city}</span>
+                                <span class="arrow">→</span>
+                                <span class="city">${flight.to_city}</span>
+                            </div>
+                            <div class="flight-date">${dateStr}</div>
+                            <div class="flight-capacity">可帶 ${flight.available_kg}kg</div>
+                            <div class="flight-price">$${flight.price_per_kg}/kg</div>
+                        </div>
+                    `;
+                }).join('');
+                
+            } catch (error) {
+                console.error('Error loading flights:', error);
+                grid.innerHTML = '<div class="no-flights">載入失敗，請重新整理頁面</div>';
+            }
+        }
+
+        // 頁面載入時自動載入航班
+        loadFlights();
     </script>
 </body>
 </html>
