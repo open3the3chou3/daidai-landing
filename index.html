@@ -71,6 +71,88 @@
             opacity: 0.9;
         }
         
+        .upcoming-flights {
+            background: white;
+            border-radius: 20px;
+            padding: 60px 40px;
+            margin: 40px 0;
+        }
+        
+        .upcoming-flights h2 {
+            text-align: center;
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .upcoming-flights .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 40px;
+        }
+        
+        .flights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        .flight-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 16px;
+            padding: 25px 20px;
+            text-align: center;
+            color: white;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .flight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+        }
+        
+        .flight-route {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .flight-route .arrow {
+            opacity: 0.8;
+            font-size: 20px;
+        }
+        
+        .flight-date {
+            font-size: 14px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .flight-capacity {
+            font-size: 13px;
+            opacity: 0.85;
+            margin-bottom: 5px;
+        }
+        
+        .flight-price {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+        
+        .flights-note {
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            margin-top: 30px;
+        }
+        
         .how-it-works {
             background: white;
             border-radius: 20px;
@@ -347,6 +429,54 @@
             </div>
         </header>
         
+        <section class="upcoming-flights">
+            <h2>🛫 即將起飛</h2>
+            <p class="subtitle">最近有這些留學生要飛，看看有沒有適合你的路線</p>
+            <div class="flights-grid" id="flightsGrid">
+                <div class="flight-card">
+                    <div class="flight-route">
+                        <span class="city">悉尼</span>
+                        <span class="arrow">→</span>
+                        <span class="city">上海</span>
+                    </div>
+                    <div class="flight-date">3月15日</div>
+                    <div class="flight-capacity">可帶 5kg</div>
+                    <div class="flight-price">$20/kg</div>
+                </div>
+                <div class="flight-card">
+                    <div class="flight-route">
+                        <span class="city">墨爾本</span>
+                        <span class="arrow">→</span>
+                        <span class="city">北京</span>
+                    </div>
+                    <div class="flight-date">3月18日</div>
+                    <div class="flight-capacity">可帶 8kg</div>
+                    <div class="flight-price">$18/kg</div>
+                </div>
+                <div class="flight-card">
+                    <div class="flight-route">
+                        <span class="city">洛杉磯</span>
+                        <span class="arrow">→</span>
+                        <span class="city">廣州</span>
+                    </div>
+                    <div class="flight-date">3月20日</div>
+                    <div class="flight-capacity">可帶 10kg</div>
+                    <div class="flight-price">$22/kg</div>
+                </div>
+                <div class="flight-card">
+                    <div class="flight-route">
+                        <span class="city">多倫多</span>
+                        <span class="arrow">→</span>
+                        <span class="city">深圳</span>
+                    </div>
+                    <div class="flight-date">3月22日</div>
+                    <div class="flight-capacity">可帶 6kg</div>
+                    <div class="flight-price">$25/kg</div>
+                </div>
+            </div>
+            <p class="flights-note">* 以上為示例數據，上線後顯示真實航班</p>
+        </section>
+
         <section class="how-it-works">
             <h2>怎麼運作？</h2>
             <div class="steps">
