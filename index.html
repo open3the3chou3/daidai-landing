@@ -505,8 +505,8 @@
                 
                 <form class="email-form" id="travelerForm">
                     <div class="form-group">
-                        <label>微信號或電話號碼 *</label>
-                        <input type="text" id="travelerContact" placeholder="例如：wxid123 或 +61 412 345 678" required>
+                        <label>微信號 *</label>
+                        <input type="text" id="travelerContact" placeholder="例如：wxid123" required>
                     </div>
                     
                     <div class="form-group">
@@ -586,8 +586,8 @@
                 
                 <form class="email-form" id="senderForm">
                     <div class="form-group">
-                        <label>微信號或電話號碼 *</label>
-                        <input type="text" id="senderContact" placeholder="例如：wxid123 或 +61 412 345 678" required>
+                        <label>微信號 *</label>
+                        <input type="text" id="senderContact" placeholder="例如：wxid123" required>
                     </div>
                     
                     <div class="form-group">
@@ -754,12 +754,7 @@
             submitBtn.textContent = '提交中...';
             
             const contact = document.getElementById('travelerContact').value.trim();
-            let contactType = 'wechat';
-            if (/^[\+\d\s\-]{8,}$/.test(contact)) {
-                contactType = 'phone';
-            } else if (contact.includes('@')) {
-                contactType = 'email';
-            }
+            const contactType = 'wechat';
             
             const ipAddress = await getIP();
             
@@ -838,12 +833,7 @@
             submitBtn.textContent = '提交中...';
             
             const contact = document.getElementById('senderContact').value.trim();
-            let contactType = 'wechat';
-            if (/^[\+\d\s\-]{8,}$/.test(contact)) {
-                contactType = 'phone';
-            } else if (contact.includes('@')) {
-                contactType = 'email';
-            }
+            const contactType = 'wechat';
             
             const ipAddress = await getIP();
             
